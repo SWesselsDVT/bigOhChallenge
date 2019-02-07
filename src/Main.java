@@ -1,37 +1,45 @@
 import java.util.ArrayList;
 
+import static app.AlphabetPrinter.nestedLoopAlphabetPrinter;
+import static app.AlphabetPrinter.sequentialLoopAlphabetPrinter;
+
 public class Main {
 
-    private static final int UNLIKELY_ALPHABET_LENGTH = 2000;
-    private static final int VERY_LARGE_ARRAY = 5000;
-
-    public static void alphabetLoopNSquared(ArrayList<Integer> A, String[] alphabets){
-        for(int i = 0; i < A.size(); i++){
-            for(int j = 0; j < alphabets.length; j++)
-                System.out.print(alphabets[j]);
-            System.out.println();
-        }
-    }
-
-    public static void alphabetLoopN(ArrayList<Integer> A, String[] alphabets){
-        String alphabet = "";
-        for(int j = 0; j < alphabets.length; j++)
-            alphabet += alphabets[j];
-        for(int i = 0; i < A.size(); i++)
-            System.out.println(alphabet);
-    }
+    private static final int VERY_LARGE_ARRAY = 10000;
+    private static final int UNLIKELY_ALPHABET_LENGTH = 200;
 
     public static void main(String[] args) {
-        String[] alphabets = new String[UNLIKELY_ALPHABET_LENGTH];
-        for(int i = 0; i < UNLIKELY_ALPHABET_LENGTH; i++)
-            alphabets[i] = "a";
-        long startTime = System.currentTimeMillis();
+        String[] alphabets = createAlphabets();
+        ArrayList<Integer> A = createContainer();
+
+        long nestedLoopStartTime = System.currentTimeMillis();
+        nestedLoopAlphabetPrinter(A, alphabets);
+        long nestedLoopEndTime = System.currentTimeMillis();
+
+        long sequentialLoopStartTime = System.currentTimeMillis();
+        sequentialLoopAlphabetPrinter(A, alphabets);
+        long sequentialLoopEndTime = System.currentTimeMillis();
+
+        getBenchmarkResults("Nested Loop", nestedLoopStartTime, nestedLoopEndTime);
+        getBenchmarkResults("Sequential Loop", sequentialLoopStartTime, sequentialLoopEndTime);
+    }
+
+    private static void getBenchmarkResults(String description, long startTime, long endTime) {
+        double total = (endTime - startTime)/1000.0;
+        System.out.println(description + ": " + total + "s");
+    }
+
+    private static ArrayList<Integer> createContainer() {
         ArrayList<Integer> A = new ArrayList<>();
         for(int i = 0; i < VERY_LARGE_ARRAY; i++)
             A.add(i);
-        alphabetLoopNSquared(A, alphabets);
-        long endTime = System.currentTimeMillis();
-        double total = (endTime - startTime)/1000.0;
-        System.out.println(total + "s");
+        return A;
+    }
+
+    private static String[] createAlphabets() {
+        String[] alphabets = new String[UNLIKELY_ALPHABET_LENGTH];
+        for(int i = 0; i < UNLIKELY_ALPHABET_LENGTH; i++)
+            alphabets[i] = "a";
+        return alphabets;
     }
 }
