@@ -5,8 +5,8 @@ import static app.AlphabetPrinter.sequentialLoopAlphabetPrinter;
 
 public class Main {
 
-    private static final int VERY_LARGE_ARRAY = 10000;
-    private static final int UNLIKELY_ALPHABET_LENGTH = 200;
+    private static final int VERY_LARGE_ARRAY = 100000;
+    private static final int UNLIKELY_ALPHABET_LENGTH = 20;
 
     public static void main(String[] args) {
         String[] alphabets = createAlphabets();
