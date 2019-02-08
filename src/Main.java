@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
-import static app.AlphabetPrinter.nestedLoopAlphabetPrinter;
-import static app.AlphabetPrinter.sequentialLoopAlphabetPrinter;
+import static app.AlphabetPrinter.*;
 
 public class Main {
 
-    private static final int VERY_LARGE_ARRAY = 100000;
+    private static final int VERY_LARGE_ARRAY = 5000;
     private static final int UNLIKELY_ALPHABET_LENGTH = 20;
+
 
     public static void main(String[] args) {
         String[] alphabets = createAlphabets();
@@ -19,6 +19,17 @@ public class Main {
         long sequentialLoopStartTime = System.currentTimeMillis();
         sequentialLoopAlphabetPrinter(A, alphabets);
         long sequentialLoopEndTime = System.currentTimeMillis();
+
+
+        final boolean recursiveStackLimit = UNLIKELY_ALPHABET_LENGTH <= 5000;
+        if (recursiveStackLimit) {
+            long recursiveLoopStartTime = System.currentTimeMillis();
+            recursiveLoopAlphabetPrinter(A, alphabets);
+            long recursiveLoopEndTime = System.currentTimeMillis();
+            getBenchmarkResults("Recursive Loop", recursiveLoopStartTime, recursiveLoopEndTime);
+        }else{
+            System.out.println("Cannot recurse due to Stack Limit. Change size of list to less than 5000");
+        }
 
         getBenchmarkResults("Nested Loop", nestedLoopStartTime, nestedLoopEndTime);
         getBenchmarkResults("Sequential Loop", sequentialLoopStartTime, sequentialLoopEndTime);
